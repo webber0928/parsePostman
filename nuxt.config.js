@@ -61,5 +61,8 @@ export default {
   removeTagWhitespace: false,
   sortClassName: false,
   trimCustomFragments: true,
-  useShortDoctype: true
+  useShortDoctype: true,
+
+  buildDir: 'docs'
+
 };
