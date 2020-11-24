@@ -1,34 +1,63 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        test
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+  <div>
+    <b-form-textarea
+      id="textarea"
+      v-model="text"
+      placeholder="Enter something..."
+      rows="3"
+      max-rows="6"
+      @update="parseFormat"
+    ></b-form-textarea>
+
+    <pre class="mt-3 mb-0">{{ parseText }}</pre>
+    <pre class="mt-3 mb-0">{{ errorMsg }}</pre>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      text: '',
+      parseText: '',
+      errorMsg: '',
+    }
+  },
+  methods: {
+    parseFormat() {
+      console.log('L25')
+      let obj = ''
+      try {
+        obj = JSON.parse(this.text)
+      } catch (error) {
+        console.log(error)
+        this.errorMsg = error
+        return
+      }
+
+      this.parseText = {
+        name: obj.info.name,
+        api: list,
+      }
+
+      let list = {}
+      obj = obj.item.map((o, index) => {
+        console.log(o)
+        list[o.name] = []
+        o.item.forEach((x, y) => {
+          list[o.name].push({
+            name: `[${x.request.method}] ${x.name}`,
+          })
+        })
+        return o
+      })
+
+      this.parseText.api = list
+
+      this.errorMsg = ''
+    },
+  },
+}
 </script>
 
 <style>
@@ -42,16 +71,8 @@ export default {}
 }
 
 .title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
+  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;
