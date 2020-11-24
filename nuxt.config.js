@@ -64,6 +64,7 @@ export default {
   trimCustomFragments: true,
   useShortDoctype: true,
 
-  buildDir: 'docs'
-
+  generate: {
+    dir: 'docs'
+  },
 };
